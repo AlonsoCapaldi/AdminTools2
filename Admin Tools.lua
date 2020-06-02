@@ -5,8 +5,8 @@ script_description('Alonso_Whittaker')
 ----------------------
 airbreak_coords = {}
 speed = 1
-----------------------
-require "lib.moonloader" -- ГЇГ®Г¤ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
+---------------------------------------------------------------
+require "lib.moonloader" -- подключение библиотеки
 local dlstatus = require('moonloader').download_status
 local inicfg = require 'inicfg'
 local keys = require "vkeys"
@@ -15,19 +15,15 @@ local encoding = require 'encoding'
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
 
---local directiIni = "moonloader\\Admin Tools.ini"
---local mainIni = inicfg.load(nil, directiIni)
----------------------------------------------------------------
---//////////////////////ГЂГўГІГ®Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ////////////////////////
 update_state = false
 
-local script_vers = 0.2
-local script_vers_text = "0.2"
+local script_vers = 2
+local script_vers_text = "1.05"
 
-local update_url = "https://raw.githubusercontent.com/AlonsoCapaldi/Admin-Tools/master/update.ini" -- ГІГіГІ ГІГ®Г¦ГҐ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
-local update_path = getWorkingDirectory() .. "/update.ini" -- ГЁ ГІГіГІ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
+local update_url = "https://raw.githubusercontent.com/AlonsoCapaldi/AdminTools2/master/update.ini" -- тут тоже свою ссылку
+local update_path = getWorkingDirectory() .. "/update.ini" -- и тут свою ссылку
 
-local script_url = "https://github.com/AlonsoCapaldi/Admin-Tools/blob/master/Admin%20Tools.luac?raw=true" -- ГІГіГІ Г±ГўГ®Гѕ Г±Г±Г»Г«ГЄГі
+local script_url = "https://github.com/AlonsoCapaldi/Admin-Tools/blob/master/Admin%20Tools.luac?raw=true" -- тут свою ссылку
 local script_path = thisScript().path
 ---------------------------------------------------------------
 local label = 0
@@ -124,15 +120,15 @@ function main()
   while not isSampAvailable() do wait(100) end
 
   wait(1000)
-    sampAddChatMessage("{408ad8}[Admin Tools]: {FFFFFF}ГЂГўГІГ®Г° Г¤Г Г­Г­Г®ГЈГ® Г±ГЄГ°ГЁГЇГІГ  {408ad8}Alonso_Whittaker. {FFFFFF}Г‚ГҐГ°Г±ГЁГї: {408ad8} " .. script_vers, -1)
-    sampAddChatMessage("{408ad8}[Admin Tools]: {FFFFFF}ГЏГ®Г±Г¬Г®ГІГ°ГҐГІГј Г±ГЇГЁГ±Г®ГЄ ГЄГ®Г¬Г Г­Г¤ ГЁ ГґГіГ­ГЄГ¶ГЁГЁ Admin Tools`a: {408ad8}/acmd", -1)
+    sampAddChatMessage("{408ad8}[Admin Tools]: {FFFFFF}Автор данного скрипта {408ad8}Alonso_Whittaker. {FFFFFF}Версия: {408ad8} " .. script_vers, -1)
+    sampAddChatMessage("{408ad8}[Admin Tools]: {FFFFFF}Посмотреть список команд и функции Admin Tools`a: {408ad8}/acmd", -1)
 
     repeat wait(0) until isSampAvailable()
     if not checkip() then
-        sampAddChatMessage('{408ad8}[Admin Tools]:{FFFFFF} ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г§Г ГЈГ°ГіГ§ГЁГІГј. ГђГ ГЎГ®ГІГ ГҐГІ ГІГ®Г«ГјГЄГ® Г­Г  {408ad8}Monser DeathMatch | Three', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]:{FFFFFF} Не удалось загрузить. Работает только на {408ad8}Monser DeathMatch | Three', -1)
         error()
     end
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г“Г±ГЇГҐГёГ­Г® Г§Г ГЈГ°ГіГ¦ГҐГ­.', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Успешно загружен.', -1)
     wait(1)
 
     style()
@@ -188,12 +184,12 @@ function main()
   _, id = sampGetPlayerIdByCharHandle(PLAYER_PED)
   nick = sampGetPlayerNickname(id)
 ---------------------------------------------------------------
---//////////////////////ГЂГўГІГ®Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ////////////////////////
+--//////////////////////Автообновление////////////////////////
     downloadUrlToFile(update_url, update_path, function(id, status)
         if status == dlstatus.STATUS_ENDDOWNLOADDATA then
             updateIni = inicfg.load(nil, update_path)
             if tonumber(updateIni.update.vers) > script_vers then
-                sampAddChatMessage("Г…Г±ГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ! Г‚ГҐГ°Г±ГЁГї: " .. updateIni.update.vers_text, -1)
+                sampAddChatMessage("Есть обновление! Версия: " .. updateIni.update.vers_text, -1)
                 update_state = true
             end
             os.remove(update_path)
@@ -206,7 +202,7 @@ function main()
         if update_state then
             downloadUrlToFile(script_url, script_path, function(id, status)
                 if status == dlstatus.STATUS_ENDDOWNLOADDATA then
-                    sampAddChatMessage("Г‘ГЄГ°ГЁГЇГІ ГіГ±ГЇГҐГёГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­!", -1)
+                    sampAddChatMessage("Скрипт успешно обновлен!", -1)
                     thisScript():reload()
                 end
             end)
@@ -260,7 +256,7 @@ function main()
             speed = speed - 0.1
             printStringNow("speed~r~ "..speed, 1337)
       end
-      --- ГЉГ®Г­ГҐГ¶ AirBrake
+      --- Конец AirBrake
    end
 end
 function cmd_ws(autuc)
@@ -268,7 +264,7 @@ function cmd_ws(autuc)
         sampSendChat("/ban " .. ws .. " 10 Extra WS.")
         ws = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/ws [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/ws [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -276,8 +272,8 @@ function cmd_c(autuc)
   if autuc ~= nil and autuc:len() > 0 then
         sampSendChat("/ban " .. autuc .. " 15 Auto +c.")
         autuc = 0
-  elses
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/+c [id]', -1)
+  else
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/+c [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -286,7 +282,7 @@ function cmd_stan(anti)
         sampSendChat("/ban " .. anti .. " 15 Antistun.")
         anti = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/stan [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/stan [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -295,7 +291,7 @@ function cmd_caps(caps)
         sampSendChat("/mute " .. caps .. " 30 Caps Lock.")
         caps = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/caps [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/caps [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -304,7 +300,7 @@ function cmd_flood(flood)
         sampSendChat("/mute " .. flood .. " 30 Flood.")
         flood = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/flood [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/flood [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -313,7 +309,7 @@ function cmd_ajail(afjail)
         sampSendChat("/jail " .. afjail .. " 60 Aim.")
         afjail = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/ajail [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/ajail [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -322,7 +318,7 @@ function cmd_fjail(fjail)
         sampSendChat("/a /jail " .. fjail .. " 60 Aim.")
         fjail = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/fjail [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/fjail [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -331,7 +327,7 @@ function cmd_faim(faim)
         sampSendChat("/a /ban " .. faim .. " 60 Aim.")
         faim = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/faim [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/faim [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -340,7 +336,7 @@ function cmd_aim(aim)
         sampSendChat("/ban " .. aim .. " 30 Aim.")
         aim = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/aim [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/aim [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -349,34 +345,34 @@ function cmd_saim(saim)
         sampSendChat("/cban " .. saim .. " 30 Aim.")
         saim = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/saim [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/saim [id]', -1)
   end
 end
 ---------------------------------------------------------------
 function cmd_oskrod(oskrod)
   if oskrod ~= nil and oskrod:len() > 0 then
-        sampSendChat("/ban " .. oskrod .. " 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©.")
+        sampSendChat("/ban " .. oskrod .. " 30 Оскорбление родителей.")
         oskrod = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/or [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/or [id]', -1)
   end
 end
 ---------------------------------------------------------------
 function cmd_oskig(oskig)
   if oskig ~= nil and oskig:len() > 0 then
-        sampSendChat("/mute " .. oskig .. " 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ .")
+        sampSendChat("/mute " .. oskig .. " 30 Оскорбление игрока.")
         oskig = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/osk [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/osk [id]', -1)
   end
 end
 ---------------------------------------------------------------
 function cmd_uprod(uprod)
   if uprod ~= nil and uprod:len() > 0 then
-        sampSendChat("/mute " .. uprod .. " 180 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©.")
+        sampSendChat("/mute " .. uprod .. " 180 Упоминание родителей.")
         uprod = 0
   else
-    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/up [id]', -1)
+    sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/up [id]', -1)
   end
 end
 ---------------------------------------------------------------
@@ -390,7 +386,7 @@ function cmd_m(arg)
         banId = arg
         pm_report.v = not pm_report.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/m [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/m [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -399,7 +395,7 @@ function cmd_ban(arg)
         banId = arg
         ban_menu.v = not ban_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/bm [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/bm [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -408,7 +404,7 @@ function cmd_mute(arg)
         banId = arg
         mute_menu.v = not mute_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/mtm [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/mtm [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -417,7 +413,7 @@ function cmd_prison(arg)
         banId = arg
         prison_menu.v = not prison_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/jm [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/jm [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -426,7 +422,7 @@ function cmd_guns(arg)
         banId = arg
         guns_menu.v = not guns_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/gunm [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/gunm [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -439,7 +435,7 @@ function cmd_p(arg)
         banId = arg
         p_menu.v = not p_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/p [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/p [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -448,7 +444,7 @@ function cmd_p(arg)
         banId = arg
         p_menu.v = not p_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/p [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/p [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -457,7 +453,7 @@ function cmd_mnak(arg)
         banId = arg
         nakm_menu.v = not nakm_menu.v
     else
-        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {408ad8}/mnak [id]', -1)
+        sampAddChatMessage('{408ad8}[Admin Tools]: {FFFFFF}Используйте: {408ad8}/mnak [id]', -1)
     end
 end
 ---------------------------------------------------------------
@@ -471,15 +467,15 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(700, 400), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"Г’Г ГЎГ«ГЁГ¶Г  Г­Г ГЄГ Г§Г Г­ГЁГ© | Alonso_Whittaker", secondary_window_state, imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoCollapse)
+    imgui.Begin(u8"Таблица наказаний | Alonso_Whittaker", secondary_window_state, imgui.WindowFlags.NoScrollbar + imgui.WindowFlags.NoCollapse)
 
-        imgui.Text(u8'ГЏГ®Г¬ГҐГµГЁ ГЁГЈГ°Г®ГўГ®Г¬Гі ГЇГ°Г®Г¶ГҐГ±Г±Гі:\nГЏГ®Г¬ГҐГµГ  В— /kick.\nГЏГ®Г¬ГҐГµГ  Гў Г°Г ГЎГ®ГІГҐ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г  В— /kick.\nГЏГ®Г¬ГҐГµГ  Г­Г  ГЄГ ГЇГІГ Гµ В— /kick.\nГЏГ®Г¬ГҐГµГ  Г­Г  Г¬ГҐГ°Г®ГЇГ°ГЁГїГІГЁГїГµ В— /kick.\nГ‘Г«ГЁГў ГІГҐГ°Г°ГЁГІГ®Г°ГЁГ© - /jail Г®ГІ 120 Г¤Г® 180 Г¬ГЁГ­ГіГІ.')
-        imgui.Text(u8'ГЌГҐГ¶ГҐГ­Г§ГіГ°Г­Г Гї Г«ГҐГЄГ±ГЁГЄГ  ГЁ Г¤Г°ГіГЈГ®ГҐ:\nГ”Г«ГіГ¤ Гў Г·Г ГІ В— /mute Г®ГІ 10 Г¤Г® 30 Г¬ГЁГ­ГіГІ.\nГ”Г«ГіГ¤ Г±Г®Г±ГІГ ГўГ®Г¬ Гў Г°ГҐГЇГ®Г°ГІ В— /mute Г®ГІ 30 Г¤Г® 60 Г¬ГЁГ­ГіГІ.\nГ‘ГЇГ Г¬ В— /mute Г®ГІ 10 Г¤Г® 30 Г¬ГЁГ­ГіГІ.\nCaps Lock В— /mute Г®ГІ 10 Г¤Г® 30 Г¬ГЁГ­ГіГІ.\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ®Гў В— /mute Г®ГІ 10 Г¤Г® 30 Г¬ГЁГ­ГіГІ.\nГЋГґГґГІГ®ГЇ Гў Г°ГҐГЇГ®Г°ГІ В— /mute Г®ГІ 10 Г¤Г® 30 Г¬ГЁГ­ГіГІ.\nГЋГЎГ¬Г Г­ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ Г±ГҐГ°ГўГҐГ°Г  В— /mute Г®ГІ 120 Г¤Г® 180 Г¬ГЁГ­ГіГІ, /ban Г®ГІ 5 Г¤Г® 30 Г¤Г­ГҐГ©, Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГЋГЎГ¬Г Г­ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ Г±ГҐГ°ГўГҐГ°Г  Г­Г  ГґГ®Г°ГіГ¬ГҐ В— /ban Г®ГІ 5 Г¤Г® 30 Г¤Г­ГҐГ©, Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ Г­Г  ГґГ®Г°ГіГ¬ГҐ В— /ban Г®ГІ 5 Г¤Г® 30 Г¤Г­ГҐГ©, Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГ‚Г»Г¤Г Г·Г  Г±ГҐГЎГї Г§Г  Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г  В— /mute Г®ГІ 30 Г¬ГЁГ­ГіГІ Г¤Г® 120 (Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ Г±ГЁГІГіГ Г¶ГЁГЁ).\nГ“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ В— /mute Г®ГІ 60 Г¤Г® 180 Г¬ГЁГ­ГіГІ.\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ/Г­ГҐГіГўГ Г¦ГЁГІГҐГ«ГјГ­Г®ГҐ Г®ГІГ­Г®ГёГҐГ­ГЁГҐ Г°Г®Г¤Г­Г»Гµ В— /ban 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ  (ГўГ»Г¤Г ВёГІГ±Гї Гў Г±Г Г¬Г®Г¬ ГЄГ°Г Г©Г­ГҐГ¬ Г±Г«ГіГ·Г ГҐ)/Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГ“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤Г­Г»Гµ, Г°Г®Г§Г¦ГЁГЈ, Г°ГҐГЄГ«Г Г¬Г , Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Гў Г­ГЁГЄ-Г­ГҐГ©Г¬ГҐ В— /mute 180 Г¬ГЁГ­ГіГІ, /ban 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ /Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ  (Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ Г­ГЁГЄ-Г­ГҐГ©Г¬Г ).\nГ†ГҐГ«Г Г­ГЁГҐ Г±Г¬ГҐГ°ГІГЁ Г°Г®Г¤Г­Г»Г¬ В— /ban 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ  Г± Г§Г Г­ГҐГ±ГҐГ­ГЁГҐГ¬ Гў Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ  Г­Г  ГЇГ®Г¦ГЁГ§Г­ГҐГ­Г­Г»Г© Г±Г°Г®ГЄ.\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ, Г­ГҐГіГўГ Г¦ГЁГІГҐГ«ГјГ­Г®ГҐ Г®ГІГ­Г®ГёГҐГ­ГЁГҐ Гў Г±ГІГ®Г°Г®Г­Гі Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ В— /mute Г®ГІ 90 Г¤Г® 180 Г¬ГЁГ­ГіГІ, /ban Г®ГІ 1 Г¤Г® 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ  Г± Г§Г Г­ГҐГ±ГҐГ­ГЁГҐГ¬ Гў Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ  (Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ Г±ГЁГІГіГ Г¶ГЁГЁ).\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г± Г¬ГіГ«ГјГІГЁ-Г ГЄГЄГ ГіГ­ГІГ  В— /ban Г®Г±Г­Г®ГўГ­Г®ГЈГ® Г ГЄГЄГ ГіГ­ГІГ  Г®ГІ 15 Г¤Г® 30 Г¤Г­ГҐГ© (Г¬ГіГ«ГјГІГЁ-Г ГЄГЄГ ГіГ­ГІ ГіГ¤Г Г«ГїГҐГІГ±Гї).\nГ†ГҐГ«Г Г­ГЁГҐ Г±Г¬ГҐГ°ГІГЁ Гў Г±ГІГ®Г°Г®Г­Гі Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ В— /mute 180 Г¬ГЁГ­ГіГІ, /ban Г®ГІ 1 Г¤Г® 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ  Г± Г§Г Г­ГҐГ±ГҐГ­ГЁГҐГ¬ Гў Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ  (Гў Г§Г ГўГЁГ±ГЁГ¬Г®Г±ГІГЁ Г®ГІ Г±ГЁГІГіГ Г¶ГЁГЁ).\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Гў Г­ГЁГЄ-Г­ГҐГ©Г¬ГҐ В— ГЇГ°Г®Г±ГјГЎГ  Г±Г¬ГҐГ­Г» Г­ГЁГЄ-Г­ГҐГ©Г¬Г , /sban Г­Г  15-30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ /Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГђГ®Г§Г¦ГЁГЈ Г¬ГҐГ¦Г­Г Г¶ГЁГ®Г­Г Г«ГјГ­Г®Г© Г°Г®Г§Г­ГЁ В— /ban Г­Г  30 Г¤Г­ГҐГ© (ГЇГ°ГЁГ¬ГҐГ°: Г·ГіГ°ГЄГ  ГҐ*Г Г­Г Гї, ГµГ Г· ГҐ*Г Г­Г»Г©, Г¬Г®Г±ГЄГ Г«Гј ГҐ*Г Г­Г»Г©, ГµГ®ГµГ®Г« ГҐ*Г Г­Г»Г© ГЁ ГІГ®Г¬Гі ГЇГ®Г¤Г®ГЎГ­Г®ГҐ), Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ Г±ГҐГ°ГўГҐГ°Г . ГЃГҐГ§ Г¬Г ГІГ  - /mute 180 Г¬ГЁГ­ГіГІ.\nГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГҐГЄГІГ /Г±ГҐГ°ГўГҐГ°Г  В— /mute 180 Г¬ГЁГ­ГіГІ /cban Г®ГІ 1 Г¤Г® 30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ /Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .')
-        imgui.Text(u8'DeathMatch ГЁ Г¤Г°ГіГЈГ®ГҐ:\nDriveBy В— /kick, /jail Г®ГІ 15 Г¤Г® 60 Г¬ГЁГ­ГіГІ (ГҐГ±Г«ГЁ Г®Г¤ГЁГ­ ГЁГЈГ°Г®ГЄ Г®Г±ГІГ ГўГЁГ« Г±ГўГ®Г© ГІГ°Г Г­Г±ГЇГ®Г°ГІ Г­Г  Г¤Г°ГіГЈГ®Г¬ ГЁГЈГ°Г®ГЄГҐ, ГЁГ«ГЁ Г¦ГҐ Г¬Г Г±Г±Г®ГўГ®ГҐ DriveBy).\nSpawnKill В— /jail Г®ГІ 30 Г¤Г® 120 Г¬ГЁГ­ГіГІ.\nTeamKill В— /jail Г®ГІ 30 Г¤Г® 120 Г¬ГЁГ­ГіГІ.')
-        imgui.Text(u8'AFK with out ESC:\nAFK ГЎГҐГ§ ESC (Г­Г ГЄГ°ГіГІГЄГ  PAYDAY) В— /kick.\nAFK Гў ГЎГ®Гѕ В— /jail Г®ГІ 30 Г¤Г® 90 Г¬ГЁГ­ГіГІ.')
-        imgui.Text(u8'ГЃГ ГЈГ®ГѕГ§Г»:\nГЃГ ГЈГ®ГѕГ§ В— /jail Г®ГІ 30 Г¤Г® 120 Г¬ГЁГ­ГіГІ.\nГЃГ ГЈГ®ГѕГ§ Г­Г  Г¤ГҐГ­ГјГЈГЁ В— /ban Г­Г  30 Г¤Г­ГҐГ© (ГЇГ®Г±Г«ГҐ Г·ГҐГЈГ® Г±Г°Г Г§Гі ГіГ¤Г Г«ГїГҐГІГ±Гї Г ГЄГЄГ ГіГ­ГІ).\nГЃГ ГЈГ®ГѕГ§ Г­Г  Г¬ГҐГ°Г®ГЇГ°ГЁГїГІГЁГЁ (Г Г­ГЁГ¬Г Г¶ГЁГї Гў Г±ГІГҐГ­Гі) В— /kick.\nГЃГ ГЈГ®ГѕГ§ Г± Г¬Г ГёГЁГ­Г®Г© (ГЁГЈГ°Г®ГЄ Г±Г Г¤ГЁГІГ±Гї Г­Г  ГўГ®Г¤ГЁГІГҐГ«ГјГ±ГЄГ®ГҐ ГЄГ°ГҐГ±Г«Г®, ГЇГ®Г±Г«ГҐ Г·ГҐГЈГ® Г§Г Г¦ГЁГ¬Г ГҐГІ ГЄГ«Г ГўГЁГёГі /shift + ГЇГ°Г®ГЎГҐГ«) В— /jail Г®ГІ 30 Г¤Г® 90.\nГ€Г±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ Г¬Г ГЄГ°Г®Г±Г®Гў Г­Г  +C В— /ban Г®ГІ 5 Г¤Г® 7 Г¤Г­ГҐГ©.')
-        imgui.Text(u8'ГђГ Г§ГўГ®Г¤ ГЁГЈГ°Г®ГЄГ®Гў:\nГ‚Г§Г«Г®Г¬ ГґГ®Г°ГіГ¬Г­Г®ГЈГ® Г ГЄГЄГ ГіГ­ГІГ  В— /ban Г­Г  ГґГ®Г°ГіГ¬ГҐ, /ban Г­Г  Г±ГҐГ°ГўГҐГ°ГҐ Г®ГІ 1 Г¤Г® 30 Г¤Г­ГҐГ©, Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .\nГЏГ®ГЄГіГЇГЄГ  ГЁГЈГ°Г®ГўГ®Г© ГўГ Г«ГѕГІГ» Г§Г  Г°ГіГЎГ«ГЁ В— /ban 30 Г¤Г­ГҐГ©, Г®ГЎГ­ГіГ«ГҐГ­ГЁГҐ ГўГ±ГҐГµ Г¤ГҐГ­ГҐГЈ ГЁ ГўГ±ГҐГЈГ® ГЁГ¬ГіГ№ГҐГ±ГІГўГ .\nГЏГ°Г®Г¤Г Г¦Г  ГЁГЈГ°Г®ГўГ®Г© ГўГ Г«ГѕГІГ» Г§Г  Г°ГіГЎГ«ГЁ В— Г‚ГҐГ·Г­Г Гї ГЎГ«Г®ГЄГЁГ°Г®ГўГЄГ .\nГЏГ°Г®Г¤Г Г¦Г /ГЇГ®ГЄГіГЇГЄГ /ГЇГҐГ°ГҐГ¤Г Г·Г  ГЁГЈГ°Г®ГўГ®ГЈГ® ГґГ®Г°ГіГ¬Г­Г®ГЈГ® Г ГЄГЄГ ГіГ­ГІГ  В— ГіГ¤Г Г«ГҐГ­ГЁГҐ ГґГ®Г°ГіГ¬Г­Г®ГЈГ® Г ГЄГЄГ ГіГ­ГІГ , Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГҐГЄГІГ .')
-        imgui.Text(u8'Г€Г±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ ГЇГ®Г±ГІГ®Г°Г®Г­Г­ГЁГµ ГЇГ°Г®ГЈГ°Г Г¬Г¬:\nSpeedHack В— /ban Г­Г  10 (Гў Г±Г«ГіГ·Г ГҐ, ГҐГ±Г«ГЁ ГЁГЈГ°Г®ГЄ Г±ГЁГ«ГјГ­Г® ГЈГ Г¤ГЁГІ Г±ГҐГ°ГўГҐГ°Гі, Г¬Г®Г¦Г­Г® ГўГ»Г¤Г ГІГј /ban Г®ГІ 20 Г¤Г® 30 Г¤Г­ГҐГ©).\nГЉГ®Г«Г«ГЁГ§ГЁГї В— /ban Г­Г  10 Г¤Г­ГҐГ©.\nГЊГҐГІГ«Г  В— /ban Г®ГІ 10 Г¤Г® 20 Г¤Г­ГҐГ©.\nГ’ГҐГ«ГҐГЇГ®Г°ГІГ Г¶ГЁГї В— /ban Г®ГІ 10 Г¤Г® 15 Г¤Г­ГҐГ©.\nGodMode В— /cban Г®ГІ 30 Г¤Г­ГҐГ©.\nGodMode car В— /ban Г®ГІ 10 Г¤Г® 20 Г¤Г­ГҐГ©.\nAim В— /cban Г®ГІ 20 Г¤Г® 30.\nWallHack В— /ban Г®ГІ 10 Г¤Г® 20 Г¤Г­ГҐГ©.\nSobeit В— /cban Г­Г  20 Г¤Г­ГҐГ© (Гў Г±Г«ГіГ·Г ГҐ, ГҐГ±Г«ГЁ ГЁГЈГ°Г®ГЄ Г±ГЁГ«ГјГ­Г® ГЈГ Г¤ГЁГІ Г±ГҐГ°ГўГҐГ°Гі, Г¬Г®Г¦Г­Г® ГўГ»Г¤Г ГІГј /ban 30 Г¤Г­ГҐГ©).\nГђГўГ Г­ГЄГ  В— /cban Г­Г  30 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ .\nSpider (ГЇГ ГіГ·Г®ГЄ) В— /ban Г­Г  3 Г¤Г­Гї.\nSpreed В— /ban 15 Г¤Г­ГҐГ©.\nDgun В— /cban Г®ГІ 20 Г¤Г® 30 Г¤Г­ГҐГ©.\nAirBrake В— /ban Г®ГІ 10 Г¤Г® 20 Г¤Г­ГҐГ©.\nAntistun В— /ban Г®ГІ 10 Г¤Г® 15 Г¤Г­ГҐГ©.\nCleo Slap В— /ban Г®ГІ 3 Г¤Г® 10 Г¤Г­ГҐГ© (ГўГ»Г¤Г ГўГ ГІГј 10 Г¤Г­ГҐГ© Гў Г±Г«ГіГ·Г ГҐ ГІГ®ГЈГ®, ГҐГ±Г«ГЁ ГЁГЈГ°Г®ГЄ ГўГ»ГЇГ®Г«Г­ГїГҐГІ ГЅГІГ® Г¤Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г¬Г ГІГҐГ°ГЁГ Г«ГјГ­Г®Г© ГўГ»ГЈГ®Г¤Г»).\nCleo +C В— /ban Г­Г  15 Г¤Г­ГҐГ©.\nExtra WS В— /ban Г­Г  10 Г¤Г­ГҐГ©.\nГЂГ­ГІГЁГЇГ Г¤ГҐГ­ГЁГҐ Г± ГЎГ Г©ГЄГ  В— /ban Г­Г  5 Г¤Г­ГҐГ©.\nCamHack В— /ban Г­Г  3 Г¤Г­Гї (Г¬Г®Г¦Г­Г® ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј Г± Г®Г¤Г®ГЎГ°ГҐГ­ГЁГї ГЈГ«Г ГўГ­Г®Г© Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ).\nГЂГ¤Г¬ГЁГ­-Г·ГҐГЄГҐГ° В— /ban Г­Г  3 Г¤Г­Гї.\nCleo Fake Chat В— /ban 10 Г¤Г­ГҐГ©, ГіГ¤Г Г«ГҐГ­ГЁГҐ Г ГЄГЄГ ГіГ­ГІГ  Г± Г§Г Г­ГҐГ±ГҐГ­ГЁГҐГ¬ Гў Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ Г±ГҐГ°ГўГҐГ°Г , ГЁГ«ГЁ Г¦ГҐ ГЇГ°Г®ГҐГЄГІГ  Гў Г±Г«ГіГ·Г ГҐ ГЇГ®Г¤Г±ГІГ ГўГ».\nCleo Г Г­ГЁГ¬Г Г¶ГЁГЁ В— Г­ГҐ Г­Г ГЄГ Г§Г»ГўГ ГҐГ¬, ГҐГ±Г«ГЁ Г­ГҐ ГЁГ¬ГҐГҐГІ ГЇГ°ГҐГЁГ¬ГіГ№ГҐГ±ГІГўГ , /ban Г­Г  3 Г¤Г­Гї.\nCleo Fake Death В— /ban Г­Г  5 Г¤Г­ГҐГ©, /ban Г­Г  30 Г¤Г­ГҐГ© (Гў Г±Г«ГіГ·Г ГҐ ГЇГ®Г¤Г±ГІГ ГўГ» Г± Г§Г Г­ГҐГ±ГҐГ­ГЁГҐГ¬ Гў Г·ГҐГ°Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ Г±ГҐГ°ГўГҐГ°Г ).\nCleo Spawn Vehicle В— /ban 5 Г¤Г­ГҐГ©.\nCleo Crashes.asi В— v.2.51 Г°Г Г§Г°ГҐГёГҐГ­. ГЃГ®Г«ГҐГҐ Г°Г Г­Г­ГЁГҐ ГўГҐГ°Г±ГЁГЁ - /ban 5 Г¤Г­ГҐГ©.\nSandboxie (ГЇГҐГ±Г®Г·Г­ГЁГ¶Г ) В— /ban 30 Г¤Г­ГҐГ©.\nAnti-AFK В— /ban 5 Г¤Г­ГҐГ©.\nГ’ГіГ°ГЎГ® Г¬Г Г°ГЄГіГ± (B1-6) - /ban Г®ГІ 10 Г¤Г® 15 Г¤Г­ГҐГ©.')
+        imgui.Text(u8'Помехи игровому процессу:\nПомеха — /kick.\nПомеха в работе администратора — /kick.\nПомеха на каптах — /kick.\nПомеха на мероприятиях — /kick.\nСлив территорий - /jail от 120 до 180 минут.')
+        imgui.Text(u8'Нецензурная лексика и другое:\nФлуд в чат — /mute от 10 до 30 минут.\nФлуд составом в репорт — /mute от 30 до 60 минут.\nСпам — /mute от 10 до 30 минут.\nCaps Lock — /mute от 10 до 30 минут.\nОскорбление игроков — /mute от 10 до 30 минут.\nОффтоп в репорт — /mute от 10 до 30 минут.\nОбман администрации сервера — /mute от 120 до 180 минут, /ban от 5 до 30 дней, черный список проекта.\nОбман администрации сервера на форуме — /ban от 5 до 30 дней, черный список проекта.\nОскорбление администрации на форуме — /ban от 5 до 30 дней, черный список проекта.\nВыдача себя за администратора — /mute от 30 минут до 120 (в зависимости от ситуации).\nУпоминание родных — /mute от 60 до 180 минут.\nОскорбление/неуважительное отношение родных — /ban 30 дней, удаление аккаунта (выдаётся в самом крайнем случае)/черный список проекта.\nУпоминание родных, розжиг, реклама, оскорбление в ник-нейме — /mute 180 минут, /ban 30 дней, удаление аккаунта/черный список проекта (в зависимости от ник-нейма).\nЖелание смерти родным — /ban 30 дней, удаление аккаунта с занесением в черный список проекта на пожизненный срок.\nОскорбление, неуважительное отношение в сторону администрации — /mute от 90 до 180 минут, /ban от 1 до 30 дней, удаление аккаунта с занесением в черный список проекта (в зависимости от ситуации).\nОскорбление с мульти-аккаунта — /ban основного аккаунта от 15 до 30 дней (мульти-аккаунт удаляется).\nЖелание смерти в сторону администрации — /mute 180 минут, /ban от 1 до 30 дней, удаление аккаунта с занесением в черный список проекта (в зависимости от ситуации).\nОскорбление в ник-нейме — просьба смены ник-нейма, /sban на 15-30 дней, удаление аккаунта/черный список проекта.\nРозжиг межнациональной розни — /ban на 30 дней (пример: чурка е*аная, хач е*аный, москаль е*аный, хохол е*аный и тому подобное), черный список сервера. Без мата - /mute 180 минут.\nОскорбление проекта/сервера — /mute 180 минут /cban от 1 до 30 дней, удаление аккаунта/черный список проекта.')
+        imgui.Text(u8'DeathMatch и другое:\nDriveBy — /kick, /jail от 15 до 60 минут (если один игрок оставил свой транспорт на другом игроке, или же массовое DriveBy).\nSpawnKill — /jail от 30 до 120 минут.\nTeamKill — /jail от 30 до 120 минут.')
+        imgui.Text(u8'AFK with out ESC:\nAFK без ESC (накрутка PAYDAY) — /kick.\nAFK в бою — /jail от 30 до 90 минут.')
+        imgui.Text(u8'Багоюзы:\nБагоюз — /jail от 30 до 120 минут.\nБагоюз на деньги — /ban на 30 дней (после чего сразу удаляется аккаунт).\nБагоюз на мероприятии (анимация в стену) — /kick.\nБагоюз с машиной (игрок садится на водительское кресло, после чего зажимает клавишу /shift + пробел) — /jail от 30 до 90.\nИспользование макросов на +C — /ban от 5 до 7 дней.')
+        imgui.Text(u8'Развод игроков:\nВзлом форумного аккаунта — /ban на форуме, /ban на сервере от 1 до 30 дней, черный список проекта.\nПокупка игровой валюты за рубли — /ban 30 дней, обнуление всех денег и всего имущества.\nПродажа игровой валюты за рубли — Вечная блокировка.\nПродажа/покупка/передача игрового форумного аккаунта — удаление форумного аккаунта, черный список проекта.')
+        imgui.Text(u8'Использование посторонних программ:\nSpeedHack — /ban на 10 (в случае, если игрок сильно гадит серверу, можно выдать /ban от 20 до 30 дней).\nКоллизия — /ban на 10 дней.\nМетла — /ban от 10 до 20 дней.\nТелепортация — /ban от 10 до 15 дней.\nGodMode — /cban от 30 дней.\nGodMode car — /ban от 10 до 20 дней.\nAim — /cban от 20 до 30.\nWallHack — /ban от 10 до 20 дней.\nSobeit — /cban на 20 дней (в случае, если игрок сильно гадит серверу, можно выдать /ban 30 дней).\nРванка — /cban на 30 дней, удаление аккаунта.\nSpider (паучок) — /ban на 3 дня.\nSpreed — /ban 15 дней.\nDgun — /cban от 20 до 30 дней.\nAirBrake — /ban от 10 до 20 дней.\nAntistun — /ban от 10 до 15 дней.\nCleo Slap — /ban от 3 до 10 дней (выдавать 10 дней в случае того, если игрок выполняет это для получения материальной выгоды).\nCleo +C — /ban на 15 дней.\nExtra WS — /ban на 10 дней.\nАнтипадение с байка — /ban на 5 дней.\nCamHack — /ban на 3 дня (можно использовать с одобрения главной администрации).\nАдмин-чекер — /ban на 3 дня.\nCleo Fake Chat — /ban 10 дней, удаление аккаунта с занесением в черный список сервера, или же проекта в случае подставы.\nCleo анимации — не наказываем, если не имеет преимущества, /ban на 3 дня.\nCleo Fake Death — /ban на 5 дней, /ban на 30 дней (в случае подставы с занесением в черный список сервера).\nCleo Spawn Vehicle — /ban 5 дней.\nCleo Crashes.asi — v.2.51 разрешен. Более ранние версии - /ban 5 дней.\nSandboxie (песочница) — /ban 30 дней.\nAnti-AFK — /ban 5 дней.\nТурбо маркус (B1-6) - /ban от 10 до 15 дней.')
         imgui.End()
     end
 ---------------------------------------------------------------
@@ -487,14 +483,14 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 400), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 1.3), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ ГЎГ«Г®ГЄГЁГ°Г®ГўГЄГЁ ГЁГЈГ°Г®ГЄГ®Гў | Alonso_Whittaker", ban_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню блокировки игроков | Alonso_Whittaker", ban_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
             if imgui.Button(u8"Aim", imgui.ImVec2(334, 25)) then
                 sampSendChat("/ban "..banId.." 30 Aim.")
             end
 
-            if imgui.Button(u8"Г’ГҐГ«ГҐГЇГ®Г°ГІГ Г¶ГЁГї", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 15 Г’ГҐГ«ГҐГЇГ®Г°ГІ")
+            if imgui.Button(u8"Телепортация", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 15 Телепорт")
             end
 
             if imgui.Button(u8"AirBrake", imgui.ImVec2(334, 25)) then
@@ -509,8 +505,8 @@ function imgui.OnDrawFrame()
                 sampSendChat("/ban "..banId.." 20 Sobeit.")
             end
   
-            if imgui.Button(u8"ГђГўГ Г­ГЄГ  ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 30 ГђГўГ Г­ГЄГ .")
+            if imgui.Button(u8"Рванка ", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 30 Рванка.")
             end
   
             if imgui.Button(u8"Auto +C", imgui.ImVec2(334, 25)) then
@@ -529,20 +525,20 @@ function imgui.OnDrawFrame()
                 sampSendChat("/ban "..banId.." 10 Extra WS.")
             end
 
-            if imgui.Button(u8"ГЊГҐГІГ«Г ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 20 ГЊГҐГІГ«Г .")
+            if imgui.Button(u8"Метла", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 20 Метла.")
             end
 
-            if imgui.Button(u8"ГЉГ®Г«Г«ГЁГ§ГЁГї", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 10 ГЉГ®Г«Г«ГЁГ§ГЁГї.")
+            if imgui.Button(u8"Коллизия", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 10 Коллизия.")
             end
 
-            if imgui.Button(u8"Cleo Г Г­ГЁГ¬Г Г¶ГЁГЁ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 3 Cleo Г Г­ГЁГ¬Г Г¶ГЁГЁ.")
+            if imgui.Button(u8"Cleo анимации", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 3 Cleo анимации.")
             end
   
-            if imgui.Button(u8"ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©", imgui.ImVec2(334, 25)) then
-                sampSendChat("/ban "..banId.." 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©")
+            if imgui.Button(u8"Оскорбление родителей", imgui.ImVec2(334, 25)) then
+                sampSendChat("/ban "..banId.." 30 Оскорбление родителей")
             end
 
       imgui.End()
@@ -552,26 +548,26 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 265), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 1.3), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ ГЎГ«Г®ГЄГЁГ°Г®ГўГЄГЁ Г·Г ГІГ  ГЁГЈГ°Г®ГЄГі | Alonso_Whittaker", mute_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню блокировки чата игроку | Alonso_Whittaker", mute_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-            if imgui.Button(u8"Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/mute "..banId.. " 180 Г“ГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©.")
+            if imgui.Button(u8"Упоминание родителей", imgui.ImVec2(334, 25)) then
+            sampSendChat("/mute "..banId.. " 180 Упоминание родителей.")
             end
 
-            if imgui.Button(u8"ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/mute "..banId.. " 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ .")
+            if imgui.Button(u8"Оскорбление игрока", imgui.ImVec2(334, 25)) then
+            sampSendChat("/mute "..banId.. " 30 Оскорбление игрока.")
             end
 
             if imgui.Button(u8"Caps Lock", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/mute "..banId.. " 30 Caps Lock.")
+            sampSendChat("/mute "..banId.. " 30 Caps Lock.")
             end
 
             if imgui.Button(u8"Flood", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/mute "..banId.. " 30 Flood.")
+            sampSendChat("/mute "..banId.. " 30 Flood.")
             end
 
             if imgui.Button(u8"Offtop", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/mute "..banId.. " 30 Offtop.")
+            sampSendChat("/mute "..banId.. " 30 Offtop.")
             end
 
       imgui.End()
@@ -581,26 +577,26 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 265), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 1.3), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ Г®ГІГЇГ°Г ГўГЄГЁ ГЁГЈГ°Г®ГЄГ  Гў ГІГѕГ°ГјГ¬Гі | Alonso_Whittaker", prison_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню отправки игрока в тюрьму | Alonso_Whittaker", prison_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
             if imgui.Button(u8"DriveBy", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/jail "..banId.. " 30 DriveBy.")
+            sampSendChat("/jail "..banId.. " 30 DriveBy.")
             end
 
             if imgui.Button(u8"SpawnKill ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/jail "..banId.. " 30 SpawnKill.")
+            sampSendChat("/jail "..banId.. " 30 SpawnKill.")
             end
 
             if imgui.Button(u8"TeamKill ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/jail "..banId.. " 30 TeamKill.")
+            sampSendChat("/jail "..banId.. " 30 TeamKill.")
             end
 
-            if imgui.Button(u8"Г‘Г«ГЁГў ГІГҐГ°Г°ГЁГІГ®Г°ГЁГ©", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/jail "..banId.. " 120 Г‘Г«ГЁГў ГІГҐГ°Г°ГЁГІГ®Г°ГЁГ©.")
+            if imgui.Button(u8"Слив территорий", imgui.ImVec2(334, 25)) then
+            sampSendChat("/jail "..banId.. " 120 Слив территорий.")
             end
 
-            if imgui.Button(u8"AFK Гў ГЎГ®Гѕ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/jail "..banId.. " 30 AFK Гў ГЎГ®Гѕ.")
+            if imgui.Button(u8"AFK в бою", imgui.ImVec2(334, 25)) then
+            sampSendChat("/jail "..banId.. " 30 AFK в бою.")
             end
 
       imgui.End()
@@ -610,58 +606,58 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 265), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 1.3), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ Г®Г°ГіГ¦ГЁГҐ | Alonso_Whittaker", guns_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню оружие | Alonso_Whittaker", guns_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-            if imgui.Button(u8"ГЏГЁГ±ГІГ®Г«ГҐГІ Г„ГҐГ§ГҐГ°ГІ Г€ГЈГ«", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 24 999")
+            if imgui.Button(u8"Пистолет Дезерт Игл", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 24 999")
             end
 
             if imgui.Button(u8"M4", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 31 999")
+            sampSendChat("/givegun " .. banId .. " 31 999")
             end
 
-            if imgui.Button(u8"ГЋГЎГ»Г·Г­Г»Г© Г¤Г°Г®ГЎГ®ГўГЁГЄ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 25 999")
+            if imgui.Button(u8"Обычный дробовик", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 25 999")
             end
 
-            if imgui.Button(u8"ГЃГҐГ­Г§Г®ГЇГЁГ«Г ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 9 999")
+            if imgui.Button(u8"Бензопила", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 9 999")
             end
 
-            if imgui.Button(u8"ГЂГЉ-47", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 30 999")
+            if imgui.Button(u8"АК-47", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 30 999")
             end
 
-            if imgui.Button(u8"Г‘ГЄГ®Г°Г®Г±ГІГ°ГҐГ«ГјГ­Г»Г© Г¤Г°Г®ГЎГ®ГўГЁГЄ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 27 999")
+            if imgui.Button(u8"Скорострельный дробовик", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 27 999")
             end
 
-            if imgui.Button(u8"Г‘Г Г¬Г®Г­Г ГўГ®Г¤ГїГ№ГЁГҐГ±Гї Г°Г ГЄГҐГІГ» HS", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 36 999")
+            if imgui.Button(u8"Самонаводящиеся ракеты HS", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 36 999")
             end
 
-            if imgui.Button(u8"ГЋГЈГ­ГҐГ¬ГҐГІ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 37 999")
+            if imgui.Button(u8"Огнемет", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 37 999")
             end
 
-            if imgui.Button(u8"ГЊГЁГ­ГЁГЈГ Г­", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 38 999")
+            if imgui.Button(u8"Миниган", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 38 999")
             end
 
-            if imgui.Button(u8"ГЋГЎГ°ГҐГ§", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 26 999")
+            if imgui.Button(u8"Обрез", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 26 999")
             end
 
-            if imgui.Button(u8"Г“Г§ГЁ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 28 999")
+            if imgui.Button(u8"Узи", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 28 999")
             end
 
             if imgui.Button(u8"MP5", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 29 999")
+            sampSendChat("/givegun " .. banId .. " 29 999")
             end
 
-            if imgui.Button(u8"Г‘Г­Г Г©ГЇГҐГ°Г±ГЄГ Гї ГўГЁГ­ГІГ®ГўГЄГ ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/givegun " .. banId .. " 34 999")
+            if imgui.Button(u8"Снайперская винтовка", imgui.ImVec2(334, 25)) then
+            sampSendChat("/givegun " .. banId .. " 34 999")
             end
 
       imgui.End()
@@ -672,30 +668,30 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 210), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ ГЎГ»Г±ГІГ°Г®ГЈГ® Г®ГІГўГҐГІГ  | Alonso_Whittaker", p_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню быстрого ответа | Alonso_Whittaker", p_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-            if imgui.Button(u8"Г‘Г«ГҐГ¦Гі Г§Г  ГіГЄГ Г§Г Г­Г­Г»Г¬ ГЁГЈГ°Г®ГЄГ®Г¬", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " ГЌГ Г·Г Г« Г°Г ГЎГ®ГІГ ГІГј ГЇГ® Г‚Г ГёГҐГ© Г¦Г Г«Г®ГЎГҐ.")
+            if imgui.Button(u8"Слежу за указанным игроком", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Начал работать по Вашей жалобе.")
             end
 
-            if imgui.Button(u8"ГЌГ Г°ГіГёГҐГ­ГЁГ© Г­ГҐ Г®ГЎГ­Г Г°ГіГ¦ГҐГ­Г®", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " ГЌГ Г°ГіГёГҐГ­ГЁГ© Г­ГҐ Г®ГЎГ­Г Г°ГіГ¦ГҐГ­Г®.")
+            if imgui.Button(u8"Нарушений не обнаружено", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Нарушений не обнаружено.")
             end
 
-            if imgui.Button(u8"Г€ГЈГ°Г®ГЄ ГЎГ»Г« Г­Г ГЄГ Г§Г Г­", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " Г€ГЈГ°Г®ГЄ, ГЇГ® Г‚Г ГёГҐГ© Г¦Г Г«Г®ГЎГҐ ГЎГ»Г« Г­Г ГЄГ Г§Г Г­.")
+            if imgui.Button(u8"Игрок был наказан", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Игрок, по Вашей жалобе был наказан.")
             end
 
-            if imgui.Button(u8"Г€ГЈГ°Г®ГЄ Г±ГІГ®ГЁГІ Гў AFK", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " Г€ГЈГ°Г®ГЄ, ГіГЄГ Г§Г Г­Г­Г»Г© Гў Г‚Г ГёГҐГ© Г¦Г Г«Г®ГЎГҐ Г±ГІГ®ГЁГІ Гў AFK.")
+            if imgui.Button(u8"Игрок стоит в AFK", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Игрок, указанный в Вашей жалобе стоит в AFK.")
             end
 
-            if imgui.Button(u8"Г€ГЈГ°Г®ГЄ ГўГ»ГёГҐГ« ГЁГ§ ГЁГЈГ°Г»", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " Г€ГЈГ°Г®ГЄ, ГіГЄГ Г§Г Г­Г­Г»Г© Гў Г‚Г ГёГҐГ© Г¦Г Г«Г®ГЎГҐ ГўГ»ГёГҐГ« ГЁГ§ ГЁГЈГ°Г».")
+            if imgui.Button(u8"Игрок вышел из игры", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Игрок, указанный в Вашей жалобе вышел из игры.")
             end
 
-            if imgui.Button(u8"ГЏГЁГёГЁГІГҐ Г¦Г Г«Г®ГЎГі Г­Г  Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г ", imgui.ImVec2(334, 25)) then
-        		sampSendChat("/pm " .. banId .. " ГЏГЁГёГЁГІГҐ Г¦Г Г«Г®ГЎГі Г­Г  Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г  Г­Г  ГґГ®Г°ГіГ¬ Г±ГҐГ°ГўГҐГ°Г .")
+            if imgui.Button(u8"Пишите жалобу на администратора", imgui.ImVec2(334, 25)) then
+            sampSendChat("/pm " .. banId .. " Пишите жалобу на администратора на форум сервера.")
             end
 
       imgui.End()
@@ -705,58 +701,58 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(350, 400), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ Г­Г ГЄГ Г§Г Г­ГЁГ© Г¤Г«Гї Г¬Г«.Г Г¤Г¬ | Alonso_Whittaker", nakm_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню наказаний для мл.адм | Alonso_Whittaker", nakm_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Aim", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за Aim", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 30 Aim.")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  ГІГҐГ«ГҐГЇГ®Г°ГІГ Г¶ГЁГѕ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 15 Г’ГҐГ«ГҐГЇГ®Г°ГІ")
+            if imgui.Button(u8"Попросить заблокировать за телепортацию", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 15 Телепорт")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  AirBrake", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за AirBrake", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 20 AirBraker")
             end
   
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  GodMode", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за GodMode", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 30 GodMode")
             end
   
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Sobeit", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за Sobeit", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 20 Sobeit.")
             end
   
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  ГђГўГ Г­ГЄГі ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 30 ГђГўГ Г­ГЄГ .")
+            if imgui.Button(u8"Попросить заблокировать за Рванку ", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 30 Рванка.")
             end
-  			
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Extra WS", imgui.ImVec2(334, 25)) then
+        
+            if imgui.Button(u8"Попросить заблокировать за Extra WS", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 10 Extra WS.")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  ГЊГҐГІГ«Гі", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 20 ГЊГҐГІГ«Г .")
+            if imgui.Button(u8"Попросить заблокировать за Метлу", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 20 Метла.")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  ГЉГ®Г«Г«ГЁГ§ГЁГѕ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 10 ГЉГ®Г«Г«ГЁГ§ГЁГї.")
+            if imgui.Button(u8"Попросить заблокировать за Коллизию", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 10 Коллизия.")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Cleo Г Г­ГЁГ¬Г Г¶ГЁГЁ", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 3 Cleo Г Г­ГЁГ¬Г Г¶ГЁГЁ.")
+            if imgui.Button(u8"Попросить заблокировать за Cleo анимации", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 3 Cleo анимации.")
             end
 
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Auto +C", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за Auto +C", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 15 Auto +C.")
             end
   
-            if imgui.Button(u8"ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г§Г  Spreed", imgui.ImVec2(334, 25)) then
+            if imgui.Button(u8"Попросить заблокировать за Spreed", imgui.ImVec2(334, 25)) then
                 sampSendChat("/a /ban "..banId.." 15 Spreed.")
             end
   
-            if imgui.Button(u8"ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©", imgui.ImVec2(334, 25)) then
-                sampSendChat("/a /ban "..banId.." 30 ГЋГ±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©")
+            if imgui.Button(u8"Оскорбление родителей", imgui.ImVec2(334, 25)) then
+                sampSendChat("/a /ban "..banId.." 30 Оскорбление родителей")
             end
 
       imgui.End()
@@ -766,7 +762,7 @@ if atp_menu.v then
         imgui.SetNextWindowSize(imgui.ImVec2(400, 120), imgui.Cond.FirstUseEver)
         imgui.ShowCursor = true
         imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-        imgui.Begin(u8"ГЏГ Г­ГҐГ«Гј ГІГҐГ«ГҐГЇГ®Г°ГІГ  | Alonso_Whittaker", atp_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+        imgui.Begin(u8"Панель телепорта | Alonso_Whittaker", atp_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
         if imgui.Button(u8"Aztecas", imgui.ImVec2(190, 25)) then
                 mainIni = inicfg.load(nil, directiIni)
@@ -805,35 +801,35 @@ if atp_menu.v then
     imgui.SetNextWindowSize(imgui.ImVec2(450, 480), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЉГ®Г¬Г Г­Г¤Г» ГЁ ГґГіГ­ГЄГ¶ГЁГЁ Admin Tools`a | Alonso_Whittaker", help_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Команды и функции Admin Tools`a | Alonso_Whittaker", help_menu, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-      imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г  Admin Tools`a v.0.1")
+      imgui.Text(u8"Команда Admin Tools`a v.0.1")
 
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /p [player id]- ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј Г®ГІГўГҐГ·Г ГІГј ГЁГЈГ°Г®ГЄГі")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /m [player id]- ГЇГ Г­ГҐГ«Гј ГўГ§Г ГЁГ¬Г®Г¤ГҐГ©Г±ГІГўГЁГї Г± ГЁГЈГ°Г®ГЄГ®Г¬.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /th - Г¬Г®Г¦Г­Г® ГЇГ®Г±Г¬Г®ГІГ°ГҐГІГј ГІГ ГЎГ«ГЁГ¶Гі Г­Г ГЄГ Г§Г Г­ГЁГї Г¤Г«Гї ГЁГЈГ°Г®ГЄГ®Гў.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /bm [player id]- ГЎГ»Г±ГІГ°Г® Г®ГІГЇГ°Г ГўГ«ГїГҐГІ ГЁГЈГ°Г®ГЄГ  Гў ГЎГ Г­.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /mtm [player id]- ГЎГ»Г±ГІГ°Г® ГЎГ«Г®ГЄГЁГ°ГіГҐГІ Г·Г ГІ Гі ГЁГЈГ°Г®ГЄГ .")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /jm [player id]- ГЎГ»Г±ГІГ°Г® Г®ГІГЇГ°Г ГўГ«ГїГҐГІ ГЁГЈГ°Г®ГЄГ  Гў ГІГѕГ°ГјГ¬Гі.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /acmd - ГЇГ®Г±Г¬Г®ГІГ°ГҐГІГј ГўГ±ГҐ ГЄГ®Г¬Г Г­Г¤Г» Admin Tools`a.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /mnak - Г¬ГҐГ­Гѕ Г­Г ГЄГ Г§Г Г­ГЁГ© Г¤Г«Гї Г¬Г«.Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г Г¶ГЁГЁ.")
+    imgui.Text(u8"Команда: /p [player id]- возможность отвечать игроку")
+    imgui.Text(u8"Команда: /m [player id]- панель взаимодействия с игроком.")
+    imgui.Text(u8"Команда: /th - можно посмотреть таблицу наказания для игроков.")
+    imgui.Text(u8"Команда: /bm [player id]- быстро отправляет игрока в бан.")
+    imgui.Text(u8"Команда: /mtm [player id]- быстро блокирует чат у игрока.")
+    imgui.Text(u8"Команда: /jm [player id]- быстро отправляет игрока в тюрьму.")
+    imgui.Text(u8"Команда: /acmd - посмотреть все команды Admin Tools`a.")
+    imgui.Text(u8"Команда: /mnak - меню наказаний для мл.администрации.")
 
-      imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г  Admin Tools`a v.0.2")
+      imgui.Text(u8"Команда Admin Tools`a v.0.2")
 
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /ajail [id] - ГЏГ®Г±Г Г¤ГЁГІГј ГЁГЈГ°Г®ГЄГ  Гў ГІГѕГ°ГјГ¬Гі Г§Г  AIM")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /fjail [id] - ГЏГ®ГЇГ°Г®Г±ГЁГІГј ГЇГ®Г±Г Г¤ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  AIM.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /faim [id] - ГЏГ®ГЇГ°Г®Г±ГЁГІГј Г§Г ГЎГ Г­ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  AIM.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /aim [id] - Г‡Г ГЎГ Г­ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  AIM.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /saim [id] - Г‡Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г ГЄГЄГ ГіГ­ГІ ГЁГЈГ°Г®ГЄГ  ГЁ IP. (Г¤Г«Гї 5 Г«ГўГ«)")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /or [id] - Г‡Г ГЎГ Г­ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /stan [id] - Г‡Г ГЎГ Г­ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  Antistun.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /+c [id] - Г‡Г ГЎГ Г­ГЁГІГј ГЁГЈГ°Г®ГЄГ  Г§Г  ГЂГўГІГ® +Г‘.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /up [id] - Г„Г ГІГј Г¬ГіГІ ГЁГЈГ°Г®ГЄГі Г§Г  ГіГЇГ®Г¬ГЁГ­Г Г­ГЁГҐ Г°Г®Г¤ГЁГІГҐГ«ГҐГ©.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /osk [id] - Г„Г ГІГј Г¬ГіГІ ГЁГЈГ°Г®ГЄГі Г§Г  Г®Г±ГЄГ®Г°ГЎГ«ГҐГ­ГЁГҐ ГЁГЈГ°Г®ГЄГ .")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /flood [id] - Г„Г ГІГј Г¬ГіГІ ГЁГЈГ°Г®ГЄГі Г§Г  ГґГ«ГіГ¤.")
-    imgui.Text(u8"ГЉГ®Г¬Г Г­Г¤Г : /caps [id] - Г„Г ГІГј Г¬ГіГІ ГЁГЈГ°Г®ГЄГі Г§Г  ГЄГ ГЇГ±.")
-    imgui.Text(u8"Г—ГЁГІГ»:")
-    imgui.Text(u8"AirBrake: ГЂГЄГІГЁГўГ Г¶ГЁГї | Г„ГҐГ ГЄГІГЁГўГ Г¶ГЁГї: ГЏГ°Г ГўГ»Г© Shift.")
+    imgui.Text(u8"Команда: /ajail [id] - Посадить игрока в тюрьму за AIM")
+    imgui.Text(u8"Команда: /fjail [id] - Попросить посадить игрока за AIM.")
+    imgui.Text(u8"Команда: /faim [id] - Попросить забанить игрока за AIM.")
+    imgui.Text(u8"Команда: /aim [id] - Забанить игрока за AIM.")
+    imgui.Text(u8"Команда: /saim [id] - Заблокировать аккаунт игрока и IP. (для 5 лвл)")
+    imgui.Text(u8"Команда: /or [id] - Забанить игрока за оскорбление родителей.")
+    imgui.Text(u8"Команда: /stan [id] - Забанить игрока за Antistun.")
+    imgui.Text(u8"Команда: /+c [id] - Забанить игрока за Авто +С.")
+    imgui.Text(u8"Команда: /up [id] - Дать мут игроку за упоминание родителей.")
+    imgui.Text(u8"Команда: /osk [id] - Дать мут игроку за оскорбление игрока.")
+    imgui.Text(u8"Команда: /flood [id] - Дать мут игроку за флуд.")
+    imgui.Text(u8"Команда: /caps [id] - Дать мут игроку за капс.")
+    imgui.Text(u8"Читы:")
+    imgui.Text(u8"AirBrake: Активация | Деактивация: Правый Shift.")
     imgui.End()
   end
 ---------------------------------------------------------------
@@ -841,37 +837,37 @@ if atp_menu.v then
     imgui.SetNextWindowSize(imgui.ImVec2(350, 265), imgui.Cond.FirstUseEver)
     imgui.ShowCursor = true
     imgui.SetNextWindowPos(imgui.ImVec2((sw / 2), sh / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-    imgui.Begin(u8"ГЊГҐГ­Гѕ ГўГ§Г ГЁГ¬Г®Г¤ГҐГ©Г±ГІГўГЁГҐ | Alonso_Whittaker", pm_report, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
+    imgui.Begin(u8"Меню взаимодействие | Alonso_Whittaker", pm_report, imgui.WindowFlags.NoMove + imgui.WindowFlags.NoCollapse + imgui.WindowFlags.NoResize)
 
-        if imgui.Button(u8"Г‡Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј ГЁГЈГ°Г®ГЄГ ", imgui.ImVec2(334, 25)) then
+        if imgui.Button(u8"Заблокировать игрока", imgui.ImVec2(334, 25)) then
             ban_menu.v = not ban_menu.v
           end
 
-          if imgui.Button(u8"Г‡Г ГЎГ«Г®ГЄГЁГ°Г®ГўГ ГІГј Г·Г ГІ ГЁГЈГ°Г®ГЄГі", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Заблокировать чат игроку", imgui.ImVec2(334, 25)) then
             mute_menu.v = not mute_menu.v
           end
 
-          if imgui.Button(u8"ГЋГІГЇГ°Г ГўГЁГІГј Гў ГІГѕГ°ГјГ¬Гі ГЁГЈГ°Г®ГЄГ ", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Отправить в тюрьму игрока", imgui.ImVec2(334, 25)) then
             prison_menu.v = not prison_menu.v
           end
 
-          if imgui.Button(u8"Г‚Г»Г¤Г ГІГј Г®Г°ГіГ¦ГЁГҐ ГЁГЈГ°Г®ГЄГі", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Выдать оружие игроку", imgui.ImVec2(334, 25)) then
             guns_menu.v = not guns_menu.v
           end
 
-          if imgui.Button(u8"Г„Г ГІГј ГЇГЁГ­ГЄГ  ГЁГЈГ°Г®ГЄГі", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Дать пинка игроку", imgui.ImVec2(334, 25)) then
             sampSendChat("/slap "..banId)
           end
 
-          if imgui.Button(u8"ГЋГІГЇГ°Г ГўГЁГІГј ГЁГЈГ°Г®ГЄГ  Г­Г  Г¬ГҐГ±ГІГ® Г±ГЇГ ГўГ­Г ", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Отправить игрока на место спавна", imgui.ImVec2(334, 25)) then
             sampSendChat("/spawn "..banId)
           end
 
-          if imgui.Button(u8"Г’ГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ ГІГј ГЁГЈГ°Г®ГЄГ  ГЄ Г±ГҐГЎГҐ", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Телепортировать игрока к себе", imgui.ImVec2(334, 25)) then
             sampSendChat("/tpks "..banId)
           end
 
-          if imgui.Button(u8"Г’ГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ ГІГјГ±Гї ГЄ ГЁГЈГ°Гі", imgui.ImVec2(334, 25)) then
+          if imgui.Button(u8"Телепортироваться к игру", imgui.ImVec2(334, 25)) then
             sampSendChat("/tpkn "..banId)
           end
 
